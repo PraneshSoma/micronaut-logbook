@@ -1,15 +1,10 @@
 package com.github.psexpspace.micronaut.products;
 
 import io.micronaut.scheduling.TaskExecutors;
-import io.micronaut.scheduling.TaskScheduler;
-import io.micronaut.scheduling.annotation.Async;
-import io.micronaut.scheduling.annotation.ExecuteOn;
-import io.netty.channel.EventLoopGroup;
-import io.reactivex.Maybe;
+import io.reactivex.Observable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
 import javax.inject.Inject;
@@ -28,23 +23,21 @@ final class ProductService {
 
     private static final Map<String, Supplier<Product>> products = new ConcurrentHashMap<>();
 
-
-
     @Inject @Named(TaskExecutors.IO)
     ExecutorService ioExecutor;
 
     static {
-        products.put("PROD-001", createProduct("PROD-001", "Micronaut in Action", 29.99, 1000));
+        products.put("PROD-001", createProduct("PROD-001", "Micronaut in Action", 29.99, 10000));
         products.put("PROD-002", createProduct("PROD-002", "Netty in Action", 31.22, 190));
         products.put("PROD-003", createProduct("PROD-003", "Effective Java, 3rd edition", 31.22, 600));
         products.put("PROD-004", createProduct("PROD-004", "Clean Code", 31.22, 1200));
     }
 
-    public Mono<Product> findProductById(final String id) {
-        log.debug("Entering findby Product Id...", id);
-        return Mono.just(id)
+    public Observable<Product> findProductById(final String id) {
+        log.debug("Entering findby Product Id..." + id);
+        return Observable.just(id)
                 .map(it -> {
-                    log.debug("get product lambda ...", id);
+                    log.debug("get product lambda ..." + id);
                     return   products.getOrDefault(it, () -> null).get();
                 });
     }
@@ -52,14 +45,17 @@ final class ProductService {
     public Mono<String> findProductMonoById(final String id) {
         log.debug("Entering findby Product Id...", id);
         Mono<Product> productMono =  Mono.just(id)
-                .subscribeOn(Schedulers.fromExecutor(ioExecutor))
                 .map(it -> {
                     log.debug("get product lambda ...", id);
                     return   products.getOrDefault(it, () -> null).get();
+                }).subscribeOn(Schedulers.fromExecutor(ioExecutor));
+
+        Mono<String> price = productMono
+                .flatMap(product -> {
+                    return Mono.just(product.getId());
                 });
 
-
-        return Mono.just(String.format("Hello %s!", productMono.block().getPrice()));
+        return Mono.just(String.format("Hello %s!", price.block()));
 
     }
 

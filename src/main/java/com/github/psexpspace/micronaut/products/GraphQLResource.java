@@ -1,5 +1,4 @@
-/*
- * Copyright 2017-2020 original authors
+/* * Copyright 2017-2020 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.github.psexpspace.micronaut.products;
 
 import graphql.ExecutionResult;
@@ -22,10 +22,9 @@ import io.micronaut.http.HttpRequest;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.exceptions.HttpStatusException;
-import io.micronaut.scheduling.TaskExecutors;
-import io.micronaut.scheduling.annotation.ExecuteOn;
-import io.reactivex.Maybe;
 import org.reactivestreams.Publisher;
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,13 +36,16 @@ import java.util.Optional;
 import static io.micronaut.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static io.micronaut.http.MediaType.*;
 
-/**
+/*
+*
  * The GraphQL controller handling GraphQL requests.
  *
  * @author Marcel Overdijk
  * @author James Kleeh
  * @since 1.0
- */
+
+*/
+
 @Controller("${" + GraphQLConfiguration.PATH + ":" + GraphQLConfiguration.DEFAULT_PATH + "}")
 public class GraphQLResource {
 
@@ -54,7 +56,8 @@ public class GraphQLResource {
     private final GraphQLExecutionResultHandler graphQLExecutionResultHandler;
     private final GraphQLJsonSerializer graphQLJsonSerializer;
 
-    /**
+/*
+*
      * Default constructor.
      * @param graphQLInvocation             the {@link GraphQLInvocation} instance
      * @param graphQLExecutionResultHandler the {@link GraphQLExecutionResultHandler} instance
@@ -62,14 +65,17 @@ public class GraphQLResource {
      * @param graphQLInvocation1
      * @param graphQLExecutionResultHandler1
      * @param graphQLJsonSerializer1
-     */
+
+*/
+
     public GraphQLResource(GraphQLInvocation graphQLInvocation, GraphQLExecutionResultHandler graphQLExecutionResultHandler, GraphQLJsonSerializer graphQLJsonSerializer, GraphQLInvocation graphQLInvocation1, GraphQLExecutionResultHandler graphQLExecutionResultHandler1, GraphQLJsonSerializer graphQLJsonSerializer1) {
         this.graphQLInvocation = graphQLInvocation1;
         this.graphQLExecutionResultHandler = graphQLExecutionResultHandler1;
         this.graphQLJsonSerializer = graphQLJsonSerializer1;
     }
 
-    /**
+/*
+*
      * Handles GraphQL {@code GET} requests.
      *
      * @param query         the GraphQL query
@@ -77,7 +83,9 @@ public class GraphQLResource {
      * @param variables     the GraphQL variables
      * @param httpRequest   the HTTP request
      * @return the GraphQL response
-     */
+
+*/
+
     @Get(produces = APPLICATION_JSON, single = true)
     public Publisher<String> get(
             @QueryValue("query") String query,
@@ -88,7 +96,7 @@ public class GraphQLResource {
         return executeRequest(query, operationName, convertVariablesJson(variables), httpRequest);
     }
 
-    /**
+/**
      * Handles GraphQL {@code POST} requests.
      *
      * @param query         the GraphQL query
@@ -98,6 +106,7 @@ public class GraphQLResource {
      * @param httpRequest   the HTTP request
      * @return the GraphQL response
      */
+
     @Post(uri = "/post",consumes = ALL, produces = APPLICATION_JSON, single = true)
     public Publisher<String> post(
             @Nullable @QueryValue("query") String query,
@@ -118,7 +127,29 @@ public class GraphQLResource {
             if (request.getQuery() == null) {
                 request.setQuery("");
             }
-            return executeRequest(request.getQuery(), request.getOperationName(), request.getVariables(), httpRequest);
+            Publisher<String> stringPublisher = executeRequest(request.getQuery(), request.getOperationName(), request.getVariables(), httpRequest);
+
+            stringPublisher
+                    .subscribe(new Subscriber<String>() {
+                        @Override
+                        public void onSubscribe(Subscription s) {
+                            s.request(Long.MAX_VALUE);
+                        }
+
+                        @Override
+                        public void onNext(String string) {
+                          log.debug("RESULT:::::::::::::::" + string);
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {}
+
+                        @Override
+                        public void onComplete() {}
+                    });
+
+
+            return stringPublisher;
         }
 
         // In addition to the above, we recommend supporting two additional cases:
@@ -146,8 +177,9 @@ public class GraphQLResource {
         }
         return graphQLJsonSerializer.deserialize(jsonMap, Map.class);
     }
+/*
 
-    /**
+*
      * Executes the GraphQL request and returns the serialized {@link GraphQLResponseBody}.
      *
      * @param query         the GraphQL query
@@ -155,7 +187,9 @@ public class GraphQLResource {
      * @param variables     the GraphQL variables
      * @param httpRequest   the HTTP request
      * @return the serialized GraphQL response
-     */
+
+*/
+
     private Publisher<String> executeRequest(
             String query,
             String operationName,
@@ -164,7 +198,6 @@ public class GraphQLResource {
         GraphQLInvocationData invocationData = new GraphQLInvocationData(query, operationName, variables);
         Publisher<ExecutionResult> executionResult = graphQLInvocation.invoke(invocationData, httpRequest);
         Publisher<GraphQLResponseBody> responseBody = graphQLExecutionResultHandler.handleExecutionResult(executionResult);
-
 
         return Publishers.map(responseBody, graphQLJsonSerializer::serialize);
     }

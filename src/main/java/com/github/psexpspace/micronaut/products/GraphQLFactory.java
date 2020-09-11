@@ -1,3 +1,4 @@
+
 package com.github.psexpspace.micronaut.products;
 
 import graphql.GraphQL;
@@ -55,3 +56,4 @@ public class GraphQLFactory {
 
 
 }
+

@@ -10,6 +10,6 @@ micronaut:
            worker:
               threads: 1
            parent:
-              threads: 1
+              threads: 2
            childOptions:
               autoRead: true
