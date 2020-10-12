@@ -19,7 +19,7 @@ final class ProductController {
 
 
     @Get("/{id}")
-    public Observable<Product> getProduct(String id) {
+    public Product getProduct(String id) {
         log.debug("ProductController.getProduct({}) executed...", id);
 
         return productService.findProductById(id)
@@ -27,6 +27,6 @@ final class ProductController {
                 result -> {
                     log.debug("Result" + result.getId().toLowerCase());
                 }
-        );
+        ).blockingFirst();
     }
 }

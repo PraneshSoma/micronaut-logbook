@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
@@ -24,6 +25,7 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-inject-java/2.0.1/c5743ed1bd3c08e5bb8ea6d7fdabd979987b20e9/micronaut-inject-java-2.0.1.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-validation/2.0.1/78fe1b5c72d2abae828265813f115235a4c1f34f/micronaut-validation-2.0.1.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.14/bdc3e8dee0b300d3fd9414678fb9ddb42d5e20fb/lombok-1.18.14.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-aop/2.0.1/2615e71d0e14480c8c1dba4ab005de9db1f22502/micronaut-aop-2.0.1.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-http/2.0.1/4a0c44d7e7960da553b1b212e48dffd1f6ec7aa6/micronaut-http-2.0.1.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.micronaut/micronaut-inject/2.0.1/ef1fd3a1e088011dd75c538ec013cad4a2ea75e8/micronaut-inject-2.0.1.jar" />

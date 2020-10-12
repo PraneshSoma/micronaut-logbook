@@ -22,6 +22,14 @@ dependencies {
     implementation("io.micronaut.graphql:micronaut-graphql:2.0.0")
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-core
     compile group: 'io.projectreactor', name: 'reactor-core', version: '3.3.9.RELEASE'
+    compile group: 'org.zalando', name: 'logbook-core', version: '2.1.0'
+    compile group: 'org.zalando', name: 'logbook-netty', version: '2.1.0'
+    compile group: 'org.projectlombok', name: 'lombok', version: '1.18.14'
+    annotationProcessor 'org.projectlombok:lombok:1.18.14'
+
+    // https://mvnrepository.com/artifact/com.google.gag/gag
+    compile group: 'com.google.gag', name: 'gag', version: '1.0.1'
+
     implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     implementation "io.micronaut:micronaut-http-client"
     implementation "io.micronaut:micronaut-inject"

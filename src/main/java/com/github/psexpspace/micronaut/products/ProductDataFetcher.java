@@ -39,6 +39,7 @@ ProductService productService;
     @Override
     public CompletableFuture<String> get(DataFetchingEnvironment env) {
         return productService.findProductMonoById("PROD-001")
+                .publishOn(Schedulers.fromExecutor(ioExecutor))
                 .doOnSuccess( string -> {
                         log.debug("Product result...");
                 }).toFuture();

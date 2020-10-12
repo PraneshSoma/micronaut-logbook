@@ -8,9 +8,9 @@
         </encoder>
     </appender>
 
-    <logger name="com.github.psexpspace.micronaut" level="debug" />
+    <logger name="com.github.psexpspace.micronaut" level="TRACE" />
 
-    <root level="info">
+    <root level="TRACE">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>

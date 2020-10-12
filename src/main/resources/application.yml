@@ -13,3 +13,4 @@ micronaut:
               threads: 2
            childOptions:
               autoRead: true
+
