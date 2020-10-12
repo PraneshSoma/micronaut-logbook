@@ -1,4 +1,4 @@
-package com.github.psexpspace.micronaut;
+package com.psexpspace.micronaut;
 
 import io.micronaut.runtime.Micronaut;
 

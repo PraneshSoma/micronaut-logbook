@@ -1,4 +1,4 @@
-package com.github.psexpspace.micronaut.customlogbook;
+package com.psexpspace.micronaut.customlogbook;
 
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpMessage;

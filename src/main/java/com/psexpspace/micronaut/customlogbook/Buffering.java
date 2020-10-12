@@ -1,10 +1,9 @@
-package com.github.psexpspace.micronaut.customlogbook;
+package com.psexpspace.micronaut.customlogbook;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpMessage;
-import com.github.psexpspace.micronaut.customlogbook.Ignoring;
 import lombok.Data;
 
 @Data

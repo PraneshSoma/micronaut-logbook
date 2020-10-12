@@ -1,4 +1,4 @@
-package com.github.psexpspace.micronaut.customlogbook;
+package com.psexpspace.micronaut.customlogbook;
 
 import javax.annotation.Nullable;
 import java.util.LinkedList;

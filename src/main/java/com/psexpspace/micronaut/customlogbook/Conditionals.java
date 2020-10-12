@@ -1,4 +1,4 @@
-package com.github.psexpspace.micronaut.customlogbook;
+package com.psexpspace.micronaut.customlogbook;
 
 import org.zalando.fauxpas.ThrowingConsumer;
 

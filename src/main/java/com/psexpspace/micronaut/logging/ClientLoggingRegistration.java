@@ -1,7 +1,7 @@
-package com.github.psexpspace.micronaut.logging;
+package com.psexpspace.micronaut.logging;
 
-import com.github.psexpspace.micronaut.customlogbook.LogbookClientHandler;
-import com.github.psexpspace.micronaut.customlogbook.LogbookServerHandler;
+import com.psexpspace.micronaut.customlogbook.LogbookClientHandler;
+import com.psexpspace.micronaut.customlogbook.LogbookServerHandler;
 import io.micronaut.context.event.BeanCreatedEvent;
 import io.micronaut.context.event.BeanCreatedEventListener;
 import io.micronaut.http.netty.channel.ChannelPipelineCustomizer;

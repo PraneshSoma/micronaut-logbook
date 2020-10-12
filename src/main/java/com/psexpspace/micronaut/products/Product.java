@@ -1,4 +1,4 @@
-package com.github.psexpspace.micronaut.products;
+package com.psexpspace.micronaut.products;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

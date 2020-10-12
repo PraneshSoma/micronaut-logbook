@@ -1,4 +1,4 @@
-package com.github.psexpspace.micronaut.customlogbook;
+package com.psexpspace.micronaut.customlogbook;
 
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,7 +13,6 @@ import org.zalando.logbook.Logbook;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import static com.github.psexpspace.micronaut.customlogbook.Conditionals.runIf;
 import static org.apiguardian.api.API.Status.EXPERIMENTAL;
 import static org.zalando.fauxpas.FauxPas.throwingRunnable;
 import static org.zalando.logbook.Logbook.RequestWritingStage;
@@ -25,7 +24,7 @@ import static org.zalando.logbook.Origin.REMOTE;
 @API(status = EXPERIMENTAL)
 @NotThreadSafe
 @RequiredArgsConstructor
-public final class LogbookServerHandler extends ChannelDuplexHandler {
+public final class LogbookClientHandler extends ChannelDuplexHandler {
 
     private final Sequence sequence = new Sequence(2);
 
@@ -37,40 +36,40 @@ public final class LogbookServerHandler extends ChannelDuplexHandler {
     private ResponseWritingStage responseStage;
 
     @Override
-    public void channelRead(
-            final ChannelHandlerContext context,
-            final Object message) {
-
-        runIf(message, HttpRequest.class, httpRequest -> {
-            this.request = new Request(context, REMOTE, httpRequest);
-            this.requestStage = logbook.process(request);
-        });
-
-        runIf(message, HttpContent.class, request::buffer);
-
-        runIf(message, LastHttpContent.class, content ->
-                sequence.set(0, throwingRunnable(requestStage::write)));
-
-        context.fireChannelRead(message);
-    }
-
-    @Override
     public void write(
             final ChannelHandlerContext context,
             final Object message,
             final ChannelPromise promise) {
 
-        runIf(message, HttpResponse.class, httpResponse -> {
-            this.response = new Response(LOCAL, httpResponse);
+        Conditionals.runIf(message, HttpRequest.class, httpRequest -> {
+            this.request = new Request(context, LOCAL, httpRequest);
+            this.requestStage = logbook.process(request);
+        });
+
+        Conditionals.runIf(message, HttpContent.class, request::buffer);
+
+        Conditionals.runIf(message, LastHttpContent.class, content ->
+                sequence.set(0, throwingRunnable(requestStage::write)));
+        
+        context.write(message, promise);
+    }
+
+    @Override
+    public void channelRead(
+            final ChannelHandlerContext context,
+            final Object message) {
+
+        Conditionals.runIf(message, HttpResponse.class, httpResponse -> {
+            this.response = new Response(REMOTE, httpResponse);
             this.responseStage = requestStage.process(response);
         });
 
-        runIf(message, HttpContent.class, response::buffer);
+        Conditionals.runIf(message, HttpContent.class, response::buffer);
 
-        runIf(message, LastHttpContent.class, content ->
+        Conditionals.runIf(message, LastHttpContent.class, content ->
                 sequence.set(1, throwingRunnable(responseStage::write)));
 
-        context.write(message, promise);
+        context.fireChannelRead(message);
     }
 
 }

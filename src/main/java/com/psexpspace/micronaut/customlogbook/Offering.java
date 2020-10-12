@@ -1,8 +1,7 @@
-package com.github.psexpspace.micronaut.customlogbook;
+package com.psexpspace.micronaut.customlogbook;
 
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpMessage;
-import com.github.psexpspace.micronaut.customlogbook.Buffering;
 
 import static io.netty.handler.codec.http.HttpUtil.getContentLength;
 import static io.netty.handler.codec.http.LastHttpContent.EMPTY_LAST_CONTENT;

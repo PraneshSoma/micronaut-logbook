@@ -1,4 +1,4 @@
-package com.github.psexpspace.micronaut.customlogbook;
+package com.psexpspace.micronaut.customlogbook;
 
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpResponse;
@@ -6,9 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.zalando.logbook.HttpHeaders;
 import org.zalando.logbook.Origin;
-import com.github.psexpspace.micronaut.customlogbook.HeaderSupport;
-import com.github.psexpspace.micronaut.customlogbook.State;
-import com.github.psexpspace.micronaut.customlogbook.Unbuffered;
 
 import javax.annotation.Nullable;
 import java.nio.charset.Charset;

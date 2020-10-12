@@ -1,4 +1,4 @@
-package com.github.psexpspace.micronaut.products;
+package com.psexpspace.micronaut.products;
 
 import io.micronaut.scheduling.TaskExecutors;
 import io.reactivex.Observable;

@@ -1,8 +1,7 @@
-package com.github.psexpspace.micronaut.products;
+package com.psexpspace.micronaut.products;
 
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

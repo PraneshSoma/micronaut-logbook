@@ -1,4 +1,4 @@
-package com.github.psexpspace.micronaut.products;
+package com.psexpspace.micronaut.products;
 
 
 import graphql.schema.DataFetcher;
