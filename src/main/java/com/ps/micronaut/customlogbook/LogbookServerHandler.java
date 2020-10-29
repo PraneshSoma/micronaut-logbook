@@ -1,4 +1,4 @@
-package com.psexpspace.micronaut.customlogbook;
+package com.ps.micronaut.customlogbook;
 
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -24,7 +24,7 @@ import static org.zalando.logbook.Origin.REMOTE;
 @API(status = EXPERIMENTAL)
 @NotThreadSafe
 @RequiredArgsConstructor
-public final class LogbookClientHandler extends ChannelDuplexHandler {
+public final class LogbookServerHandler extends ChannelDuplexHandler {
 
     private final Sequence sequence = new Sequence(2);
 
@@ -36,13 +36,12 @@ public final class LogbookClientHandler extends ChannelDuplexHandler {
     private ResponseWritingStage responseStage;
 
     @Override
-    public void write(
+    public void channelRead(
             final ChannelHandlerContext context,
-            final Object message,
-            final ChannelPromise promise) {
+            final Object message) {
 
         Conditionals.runIf(message, HttpRequest.class, httpRequest -> {
-            this.request = new Request(context, LOCAL, httpRequest);
+            this.request = new Request(context, REMOTE, httpRequest);
             this.requestStage = logbook.process(request);
         });
 
@@ -50,17 +49,18 @@ public final class LogbookClientHandler extends ChannelDuplexHandler {
 
         Conditionals.runIf(message, LastHttpContent.class, content ->
                 sequence.set(0, throwingRunnable(requestStage::write)));
-        
-        context.write(message, promise);
+
+        context.fireChannelRead(message);
     }
 
     @Override
-    public void channelRead(
+    public void write(
             final ChannelHandlerContext context,
-            final Object message) {
+            final Object message,
+            final ChannelPromise promise) {
 
         Conditionals.runIf(message, HttpResponse.class, httpResponse -> {
-            this.response = new Response(REMOTE, httpResponse);
+            this.response = new Response(LOCAL, httpResponse);
             this.responseStage = requestStage.process(response);
         });
 
@@ -69,7 +69,7 @@ public final class LogbookClientHandler extends ChannelDuplexHandler {
         Conditionals.runIf(message, LastHttpContent.class, content ->
                 sequence.set(1, throwingRunnable(responseStage::write)));
 
-        context.fireChannelRead(message);
+        context.write(message, promise);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.psexpspace.micronaut.products;
+package com.ps.micronaut.products;
 
 import graphql.*;
 import graphql.execution.*;

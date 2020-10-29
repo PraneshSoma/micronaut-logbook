@@ -1,7 +1,7 @@
-package com.psexpspace.micronaut.logging;
+package com.ps.micronaut.logging;
 
-import com.psexpspace.micronaut.customlogbook.LogbookClientHandler;
-import com.psexpspace.micronaut.customlogbook.LogbookServerHandler;
+import com.ps.micronaut.customlogbook.LogbookClientHandler;
+import com.ps.micronaut.customlogbook.LogbookServerHandler;
 import io.micronaut.context.event.BeanCreatedEvent;
 import io.micronaut.context.event.BeanCreatedEventListener;
 import io.micronaut.http.netty.channel.ChannelPipelineCustomizer;
@@ -16,7 +16,13 @@ public class ClientLoggingRegistration implements BeanCreatedEventListener<Chann
 
     private static final Logger LOG = LoggerFactory.getLogger(ClientLoggingRegistration.class);
 
+/*
     Logbook logbook = Logbook.create();
+*/
+
+    private final Logbook logbook = Logbook.builder()
+            .sink(new CustomSink("httpclient"))
+            .build();
 
     @Override
     public ChannelPipelineCustomizer onCreated(BeanCreatedEvent<ChannelPipelineCustomizer> event) {

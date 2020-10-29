@@ -1,4 +1,4 @@
-package com.psexpspace.micronaut.products;
+package com.ps.micronaut.products;
 
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.client.annotation.Client;

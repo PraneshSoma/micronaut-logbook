@@ -1,4 +1,4 @@
-package com.psexpspace.micronaut.logging;
+package com.ps.micronaut.logging;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,11 +6,11 @@ import org.zalando.logbook.*;
 
 import java.io.IOException;
 
-public class CustomLoggingSink implements Sink {
+public class CustomSink implements Sink {
 
     private final Logger logger;
 
-    public CustomLoggingSink(String loggerName) {
+    public CustomSink(String loggerName) {
         this.logger = LoggerFactory.getLogger(loggerName);
     }
 
@@ -21,9 +21,9 @@ public class CustomLoggingSink implements Sink {
 
     @Override
     public void write(Correlation correlation, HttpRequest request, HttpResponse response) throws IOException {
-        logger.info("Request: endpoint {}, method {}",
-                request.getRequestUri(),
-                request.getMethod()
-        );
+        String responsePayload = new String(response.getBody(), "UTF-8");
+
+        System.out.println( request.getRequestUri() + " , "+request.getMethod()+ "," +  responsePayload);
+
     }
 }

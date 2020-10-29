@@ -1,4 +1,4 @@
-package com.psexpspace.micronaut.customlogbook;
+package com.ps.micronaut.customlogbook;
 
 
 

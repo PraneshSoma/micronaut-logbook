@@ -1,4 +1,4 @@
-package com.psexpspace.micronaut.customlogbook;
+package com.ps.micronaut.customlogbook;
 
 import com.google.gag.annotation.remark.ThisWouldBeOneLineIn;
 import org.zalando.logbook.HttpHeaders;

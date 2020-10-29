@@ -1,4 +1,4 @@
-package com.psexpspace.micronaut.products;
+package com.ps.micronaut.products;
 
 import io.micronaut.scheduling.TaskExecutors;
 import io.reactivex.Observable;
@@ -27,10 +27,10 @@ final class ProductService {
     ExecutorService ioExecutor;
 
     static {
-        products.put("PROD-001", createProduct("PROD-001", "Micronaut in Action", 29.99, 10000));
-        products.put("PROD-002", createProduct("PROD-002", "Netty in Action", 31.22, 190));
-        products.put("PROD-003", createProduct("PROD-003", "Effective Java, 3rd edition", 31.22, 600));
-        products.put("PROD-004", createProduct("PROD-004", "Clean Code", 31.22, 1200));
+        products.put("PROD-001", createProduct("PROD-001", "Hammer", 9.99, 100));
+        products.put("PROD-002", createProduct("PROD-002", "Nails", 1.22, 190));
+        products.put("PROD-003", createProduct("PROD-003", "Hand Tools", 6.28, 600));
+        products.put("PROD-004", createProduct("PROD-004", "Mallets", 6.26, 1200));
     }
 
     public Observable<Product> findProductById(final String id) {
