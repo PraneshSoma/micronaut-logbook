@@ -18,5 +18,5 @@ https://www.getpostman.com/collections/002b75f4175a43980ef8
 
 
 Potential Solve:
-Sequence Member variable has to be instatiated inside the first function (i.e. ChannelRead in `LogbookServerHandler` and ChannelWrite in `LogbookClientHandler`)
+Sequence Member variable has to be instatiated inside the first function (i.e. ChannelRead in `LogbookServerHandler` and ChannelWrite in `LogbookClientHandler`).
 I will raise a PR for this issue and update here.
