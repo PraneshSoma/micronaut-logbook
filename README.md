@@ -1,7 +1,7 @@
 # micronaut-logbook
 
 
-This repo is to demonstrate the issue with log book(netty) for keep-alive connections.
+This repo is to demonstrate the issue with logbook(netty) for keep-alive connections.
 
 Issue : 
 
