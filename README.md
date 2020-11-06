@@ -10,7 +10,7 @@ runEagerly method in Sequence class is triggered only for the first requests.
 
 All subsequent requests are not getting into the loop since the next is incremented in the last line of the class. As the server and client handlers set the sequence at 0, 1. Next should get reset for every http request. 
 
-This only happens for keep-alive connections.
+This only happens for keep-alive connection.
 
 please use the below postman collection to replicate the issue.
 
