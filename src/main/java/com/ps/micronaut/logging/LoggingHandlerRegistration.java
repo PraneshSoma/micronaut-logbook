@@ -6,7 +6,7 @@ import io.micronaut.http.netty.channel.ChannelPipelineCustomizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zalando.logbook.Logbook;
-import org.zalando.logbook.netty.LogbookServerHandler;
+import com.ps.micronaut.logging.customlog.LogbookServerHandler;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -20,10 +20,6 @@ public class LoggingHandlerRegistration implements BeanCreatedEventListener<Chan
             .sink(new CustomSink("Inbound"))
             .build();
 
-    @Inject
-    public LogbookServerHandler serverRequestHandler(){
-        return new LogbookServerHandler(logbookInbound);
-    }
 
 
     @Override
@@ -31,7 +27,7 @@ public class LoggingHandlerRegistration implements BeanCreatedEventListener<Chan
         var customizer = event.getBean();
         if (customizer.isServerChannel()) {
             customizer.doOnConnect(pipeline -> {
-                pipeline.addAfter(ChannelPipelineCustomizer.HANDLER_HTTP_SERVER_CODEC, "logbook", serverRequestHandler());
+                pipeline.addAfter(ChannelPipelineCustomizer.HANDLER_HTTP_SERVER_CODEC, "logbook", new LogbookServerHandler(logbookInbound));
                 return pipeline;
             });
         }
